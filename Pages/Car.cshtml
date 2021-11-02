@@ -1,0 +1,75 @@
+﻿@page
+@using CarsWeb.Models
+@model CarsWeb.Pages.CarModel
+@{
+
+    ViewData["Title"] = "Cars Web";
+
+}
+
+<h1>Cars Web</h1>
+
+<form method="POST" class="card p-3">
+    <div class="row">
+        <div asp-validation-summary="All"></div>
+    </div>
+    <div class="form-group mb-0">
+        <div class="row g-3">
+            <div class="col-md-3">
+                <label asp-for="Carro.Marca">Marca</label>
+                <input type="text" required asp-for="Carro.Marca" class="form-control">
+            </div>
+            <div class="col-md-3">
+                <label asp-for="Carro.Modelo">Modelo</label>
+                <input type="text" required asp-for="Carro.Modelo" class="form-control">
+            </div>
+            <div class="col-md-3">
+                <label asp-for="Carro.Ano">Ano</label>
+                <input type="number" asp-for="Carro.Ano" class="form-control">
+            </div>
+            <div class="col-md-3">
+                <label asp-for="Carro.Preco">Preco</label>
+                <input type="number" asp-for="Carro.Preco" class="form-control">
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-md-3">
+                <label asp-for="Carro.Categoria">Categoria</label>
+                <select asp-for="Carro.Categoria" asp-items="Html.GetEnumSelectList<CategoriaVeiculo>()" class="form-control"></select>
+            </div>
+        </div>
+        <button class="btn btn-primary mt-4">Adicionar</button>
+    </div>
+</form>
+
+<table class="table mt-4">
+    <thead>
+        <tr>
+            <th scope="col">Marca</th>
+            <th scope="col">Modelo</th>
+            <th scope="col">Ano</th>
+            <th scope="col">Preço</th>
+            <th scope="col">Categoria</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var carro in Model.Carros) {
+            <tr>
+                <td>@carro.Marca</td>
+                <td>@carro.Modelo</td>
+                <td>@carro.Ano</td>
+                <td>@($"{carro.Preco:C}")</td>
+                <td>@carro.Categoria</td>
+                <td>
+                    <form method="POST" asp-page-handler="Delete" asp-route-id="@carro.Id">
+                        <button class="btn btn-danger">Remover</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial"/>
+}
